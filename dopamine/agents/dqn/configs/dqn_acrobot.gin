@@ -1,0 +1,34 @@
+# Hyperparameters for a simple DQN-style Acrobot agent. The hyperparameters
+# chosen achieve reasonable performance.
+import dopamine_baseline.utils.gym_lib
+import dopamine_baseline.agents.dqn.dqn_agent
+import dopamine_baseline.replay_memory.circular_replay_buffer
+import gin.tf.external_configurables
+
+DQNAgent.observation_shape = %gym_lib.ACROBOT_OBSERVATION_SHAPE
+DQNAgent.observation_dtype = %gym_lib.ACROBOT_OBSERVATION_DTYPE
+DQNAgent.stack_size = %gym_lib.ACROBOT_STACK_SIZE
+DQNAgent.network = @gym_lib.AcrobotDQNNetwork
+DQNAgent.gamma = 0.99
+DQNAgent.update_horizon = 1
+DQNAgent.min_replay_history = 500
+DQNAgent.update_period = 4
+DQNAgent.target_update_period = 100
+DQNAgent.epsilon_fn = @dqn_agent.identity_epsilon
+DQNAgent.tf_device = '/gpu:0'  # use '/cpu:*' for non-GPU version
+DQNAgent.optimizer = @tf.train.AdamOptimizer()
+
+tf.train.AdamOptimizer.learning_rate = 0.001
+tf.train.AdamOptimizer.epsilon = 0.0003125
+
+create_gym_environment.environment_name = 'Acrobot'
+create_gym_environment.version = 'v1'
+
+CreateRunner.create_environment_fn = @gym_lib.create_gym_environment
+CreateRunner.num_iterations = 500
+CreateRunner.training_steps = 1000
+CreateRunner.evaluation_steps = 1000
+CreateRunner.max_steps_per_episode = 500
+
+WrappedReplayBuffer.replay_capacity = 50000
+WrappedReplayBuffer.batch_size = 128

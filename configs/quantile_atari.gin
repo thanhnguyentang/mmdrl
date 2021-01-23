@@ -1,0 +1,50 @@
+import numpy
+import dopamine.utils.atari_lib
+import dopamine.agents.dqn.dqn_agent 
+import create_runner 
+import dopamine.replay_memory.prioritized_replay_buffer
+import quantile_agent 
+import particle_net
+import reward_shaping
+import gin.tf.external_configurables 
+import parameters 
+
+
+QuantileRegressionAgent.gamma = 0.99
+QuantileRegressionAgent.num_atoms = 200
+QuantileRegressionAgent.policy = 'eps_greedy'
+QuantileRegressionAgent.target_estimator = 'mean' 
+QuantileRegressionAgent.delta = 1. 
+QuantileRegressionAgent.kappa = 1. 
+QuantileRegressionAgent.network = @particle_net.ParticleDQNet
+QuantileRegressionAgent.update_horizon = 1 
+QuantileRegressionAgent.min_replay_history = 50000
+QuantileRegressionAgent.update_period = 4 
+QuantileRegressionAgent.target_update_period = 10000
+QuantileRegressionAgent.epsilon_fn = @dqn_agent.linearly_decaying_epsilon   
+QuantileRegressionAgent.epsilon_train = 0.01 
+QuantileRegressionAgent.epsilon_eval = 0.001
+QuantileRegressionAgent.epsilon_decay_period = 1000000
+QuantileRegressionAgent.tf_device = '/gpu:0'
+QuantileRegressionAgent.optimizer = @tf.train.AdamOptimizer() 
+QuantileRegressionAgent.replay_scheme = 'uniform'
+QuantileRegressionAgent.debug = True 
+
+tf.train.AdamOptimizer.learning_rate = 0.00005 
+tf.train.AdamOptimizer.epsilon = 0.0003125 # 0.01 / 32 
+
+
+create_atari_environment.game_name = 'Breakout'
+create_atari_environment.sticky_actions = False 
+NoopAtariPreprocessing.terminal_on_life_loss = True
+
+
+CreateRunner.create_environment_fn = @atari_lib.create_atari_environment 
+CreateRunner.num_iterations = 200
+CreateRunner.training_steps = 250000 
+CreateRunner.evaluation_steps = 125000 
+CreateRunner.max_steps_per_episode = 27000  # Default max episode length.
+CreateRunner.reward_clip = True
+
+WrappedPrioritizedReplayBuffer.replay_capacity = 1000000
+WrappedPrioritizedReplayBuffer.batch_size = 32 

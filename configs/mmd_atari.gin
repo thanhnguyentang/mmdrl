@@ -1,0 +1,52 @@
+import numpy
+import dopamine.utils.atari_lib
+import dopamine.agents.dqn.dqn_agent 
+import create_runner 
+import dopamine.replay_memory.prioritized_replay_buffer
+import mmd_agent 
+import particle_net
+import gin.tf.external_configurables 
+
+bandwidth_linear_annealing_fn.annealing_period = 4000000
+bandwidth_linear_annealing_fn.init_value = 10.
+bandwidth_linear_annealing_fn.final_value = 1.
+
+MMDAgent.gamma = 0.99
+MMDAgent.num_atoms = 200 #300 #200
+MMDAgent.bandwidth_selection_type = 'mixture' #[med/annealing/mixture/const]
+MMDAgent.policy = 'eps_greedy'
+MMDAgent.target_estimator = 'mean' 
+MMDAgent.delta = 1. 
+MMDAgent.kappa = 0
+MMDAgent.network = @particle_net.ParticleDQNet
+MMDAgent.update_horizon = 1 
+MMDAgent.min_replay_history = 50000
+MMDAgent.update_period = 4 
+MMDAgent.target_update_period = 10000
+MMDAgent.epsilon_fn = @dqn_agent.linearly_decaying_epsilon   
+MMDAgent.epsilon_train = 0.01 
+MMDAgent.epsilon_eval = 0.001
+MMDAgent.epsilon_decay_period = 1000000
+MMDAgent.tf_device = '/gpu:0'
+MMDAgent.optimizer = @tf.train.AdamOptimizer() 
+MMDAgent.replay_scheme = 'uniform'
+MMDAgent.debug = True 
+
+tf.train.AdamOptimizer.learning_rate = 0.00005 #0.00025 #0.00005 
+tf.train.AdamOptimizer.epsilon = 0.0003125 # 0.01 / 32 
+
+
+create_atari_environment.game_name = 'Breakout'
+create_atari_environment.sticky_actions = False 
+NoopAtariPreprocessing.terminal_on_life_loss = True
+
+
+CreateRunner.create_environment_fn = @atari_lib.create_atari_environment 
+CreateRunner.num_iterations = 200
+CreateRunner.training_steps = 250000 
+CreateRunner.evaluation_steps = 125000 
+CreateRunner.max_steps_per_episode = 27000  # Default max episode length.
+CreateRunner.reward_clip = True
+
+WrappedPrioritizedReplayBuffer.replay_capacity = 1000000
+WrappedPrioritizedReplayBuffer.batch_size = 32 
