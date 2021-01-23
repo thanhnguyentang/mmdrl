@@ -13,16 +13,16 @@ This repo is the *official* code base for our AAAI'21 ["Distributional Reinforce
 * [Dopamine](https://github.com/google/dopamine) framework (already integrated into this code base)
 
 ## Instruction 
-* To train and evaluate `MMDQN` in an Atari game with the default settings, use the following example command (from the main directory `mmdrl`):
+* To train and evaluate `MMDQN` in an Atari game with the default settings, use the following example command (from within the main directory `mmdrl`):
     ```
     python main.py --env Breakout --agent_id mmd \
     --agent_name mmd_dqn_1 --gin_files ./configs/mmd_atari.gin
     ```
-where `env` is an Atari game name, `agent_id` is a registered agent id ('mmd' for MMDQN), `agent_name` for the directory name to save the agent training and evaluation results, and `gin_files` is a path the the hyperparameter configuration. 
+where `env` is an Atari game name, `agent_id` is a registered agent id ('mmd' for MMDQN), `agent_name` for the directory name to save the agent training and evaluation results, and `gin_files` is a path to the hyperparameter configuration (in `gin` format). 
 
 * For convenience, we can directly modify the bash script `run_mmdqn.sh` for various hyperparameter settings and run the bash via 
     ```
-    chmod +x ./run_mmd_dqn.sh;./run_mmd_dqn.sh 
+    chmod +x ./run_mmdqn.sh; ./run_mmdqn.sh 
     ```
 
 ### Main variables in MMD-DQN code:
@@ -39,7 +39,7 @@ where `env` is an Atari game name, `agent_id` is a registered agent id ('mmd' fo
 * `mmd_agent.py`: An implementation of MMDQN agent 
 * `quantile_agent.py`: An implementation of QR-DQN  
 * `main.py`: Main file to train and evaluate an agent  
-* `run_mmd_dqn.sh`: A bash script to train and evaluate MMDQN agent 
+* `run_mmdqn.sh`: A bash script to train and evaluate MMDQN agent 
 * `configs/mmd_atari_gin`: Hyperparameters of MMDQN agent 
 * `dopamine/`: The code base of Dopamine framework  
 
