@@ -2,6 +2,8 @@
 
 This is the *official* code base for our AAAI'21 paper, "**Distributional Reinforcement Learning via Moment Matching**", [arXiv](https://arxiv.org/abs/2007.12354), [AAAI Proceeding](https://ojs.aaai.org/index.php/AAAI/article/view/17104). 
 
+![Alt Text](https://github.com/thanhnguyentang/mmdrl/blob/master/raw_result_data/My%20Movie.gif)
+
 
 ## Dependencies 
 * tensorflow==1.15
