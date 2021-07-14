@@ -1,6 +1,6 @@
 # MMDRL 
 
-This repo is the *official* code base for our AAAI'21 ["Distributional Reinforcement Learning via Moment Matching"](https://arxiv.org/abs/2007.12354). 
+This is the *official* code base for our AAAI'21 paper, "**Distributional Reinforcement Learning via Moment Matching**", [arXiv](https://arxiv.org/abs/2007.12354), [AAAI Proceeding](https://ojs.aaai.org/index.php/AAAI/article/view/17104). 
 
 
 ## Dependencies 
@@ -25,9 +25,9 @@ where `env` is an Atari game name, `agent_id` is a registered agent id ('mmd' fo
     chmod +x ./run_mmdqn.sh; ./run_mmdqn.sh 
     ```
 
-### Main variables in MMD-DQN code:
+### Main variables in MMDQN code:
 * `env`: One of the 57 Atari games  
-* `agent_id`: ['mmd', 'quantile', 'iqn'], agent id (for MMDQN, QR-DQN and IQN)
+* `agent_id`: ['mmd', 'quantile', 'iqn'], agent id (for `MMDQN`, `QR-DQN` and `IQN`)
 * `agent_name`: str, the experiment log saved to `./results/<env>/<agent_name>`
 * `policy`: ['eps_greedy', 'ucb', 'ps'], policy used by the agent (epsilon-greey, UCB or Thompson sampling)
 * `num_atoms`: int, the number of particles N 
@@ -36,23 +36,38 @@ where `env` is an Atari game name, `agent_id` is a registered agent id ('mmd' fo
 * `gin_bindings`: str, overwrite hyperparameters in a gin file 
 
 ### An overview of the MMDRL codebase: 
-* `mmd_agent.py`: An implementation of MMDQN agent 
-* `quantile_agent.py`: An implementation of QR-DQN  
+* `mmd_agent.py`: An implementation of `MMDQN` agent 
+* `quantile_agent.py`: An implementation of `QR-DQN`  
 * `main.py`: Main file to train and evaluate an agent  
-* `run_mmdqn.sh`: A bash script to train and evaluate MMDQN agent 
-* `configs/mmd_atari_gin`: Hyperparameters of MMDQN agent 
+* `run_mmdqn.sh`: A bash script to train and evaluate `MMDQN` agent 
+* `configs/mmd_atari_gin`: Hyperparameters of `MMDQN` agent 
 * `dopamine/`: The code base of Dopamine framework  
 
+
+## Raw Result Data 
+
+For the ease of re-presenting our experimental result, I have uploaded the raw result data of our algorithm `MMDQN` (and `QR-DQN`) to `/raw_result_data`
+
+* `/raw_result_data/mmdqn_train_episode_return.csv`: The raw scores of `MMDQN` during training for the Atari games. 
+* `/raw_result_data/mmdqn_eval_episode_return.csv`: The raw scores of `MMDQN` during evaluation for the Atari games. 
+* `/raw_result_data/qr_train_episode_return.csv`: The raw scores of `QR-DQN` during training for the Atari games. 
+* `/raw_result_data/qr_train_episode_return.csv`: The raw scores of `QR-DQN` during evaluation for the Atari games. 
+
+`MMDQN`is trained in each of the 55 Atari games for three independent times (three random seeds). Each line of each of the `csv` files above contains the name of the game and a series of `200` numbers that represent the score that `MMDQN` obtains after each iteration. I have also uploaded the raw result data of `QR-DQN` in `/raw_result_data/qr_train_episode_return.csv`and `/raw_result_data/qr_eval_episode_return.csv`.
 
 ## Bibliography  
 
 ```
-@misc{nguyen2020distributional,
-        title={Distributional Reinforcement Learning via Moment Matching},
-        author={Thanh Tang Nguyen and Sunil Gupta and Svetha Venkatesh},
-        year={2020},
-        eprint={2007.12354},
-        archivePrefix={arXiv},
-        primaryClass={cs.LG}
-    }
+@article{Nguyen-Tang_Gupta_Venkatesh_2021,
+title={Distributional Reinforcement Learning via Moment Matching}, 
+volume={35}, 
+url={https://ojs.aaai.org/index.php/AAAI/article/view/17104},
+number={10}, 
+journal={Proceedings of the AAAI Conference on Artificial Intelligence}, 
+author={Nguyen-Tang, Thanh and Gupta, Sunil and Venkatesh, Svetha}, 
+year={2021}, 
+month={May}, 
+pages={9144-9152} }
 ```
+
+
